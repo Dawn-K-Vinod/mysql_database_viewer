@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title><%= table %> in <%= database %></title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+<!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI plugin (optional) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {},
+            },
+            plugins: [daisyui],
+        }
+    </script>
+</head>
+<body class="bg-gray-100 p-6">
+
+
+<h1 class="text-3xl font-bold mb-6">Table: <%= table %> (Database: <%= database %>)</h1>
+<a href="/database/<%= database %>" class="text-blue-500 underline mb-4 inline-block">← Back to Tables</a>
+
+<div class="overflow-x-auto shadow-lg rounded-lg mb-6">
+<table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg">
+    <thead class="bg-gray-800 text-white sticky top-0">
+        <tr>
+            <% columns.forEach(col => { %>
+                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider"><%= col %></th>
+            <% }) %>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+        <% rows.forEach((row, idx) => { %>
+            <tr class="<%= idx % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition">
+                <% columns.forEach(col => { %>
+                    <td class="px-6 py-2 text-sm text-gray-700"><%= row[col] %></td>
+                <% }) %>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+</div>
+
+<!-- Numbered pagination (scrollable horizontally if too many pages) -->
+<div class="flex overflow-x-auto gap-2 mb-2">
+    <% for(let i=1; i<=totalPages; i++) { %>
+        <a href="?page=<%= i %>" class="<%= page===i ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700' %> px-4 py-1 rounded hover:bg-blue-500 whitespace-nowrap"><%= i %></a>
+    <% } %>
+</div>
+
+<!-- Control buttons: First, Prev, Next, Last -->
+<div class="flex justify-center gap-2">
+    <a href="?page=1" class="bg-gray-700 text-white px-4 py-1 rounded hover:bg-gray-800">First</a>
+    <% if (page > 1) { %>
+        <a href="?page=<%= page - 1 %>" class="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600">Prev</a>
+    <% } %>
+    <% if (page < totalPages) { %>
+        <a href="?page=<%= page + 1 %>" class="bg-gray-500 text-white px-4 py-1 rounded hover:bg-gray-600">Next</a>
+    <% } %>
+    <a href="?page=<%= totalPages %>" class="bg-gray-700 text-white px-4 py-1 rounded hover:bg-gray-800">Last</a>
+</div>
+
+
+</body>
+</html>
