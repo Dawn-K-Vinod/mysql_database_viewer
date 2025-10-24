@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tables in <%= database %></title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+<!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI plugin (optional) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {},
+            },
+            plugins: [daisyui],
+        }
+    </script>
+</head>
+<body class="bg-gray-100 p-6">
+
+<h1 class="text-3xl font-bold mb-6">Tables in <%= database %></h1>
+<a href="/" class="text-blue-500 underline mb-4 inline-block">← Back to Databases</a>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <% tables.forEach(table => { %>
+        <a href="/database/<%= database %>/<%= table %>?page=1" class="card bg-green-100 p-5 rounded-lg shadow hover:bg-green-200 transition">
+            <h2 class="text-lg font-medium text-green-800"><%= table %></h2>
+        </a>
+    <% }) %>
+</div>
+
+</body>
+</html>
